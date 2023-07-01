@@ -1,3 +1,5 @@
+//to insert the datas and giving the collection as products
+
 db.products.insertMany([
     {
         id: "1",
@@ -176,6 +178,8 @@ db.products.insertMany([
     },
 ]);
 
+
+
 // 1. Find all the information about each products
 db.products.find().pretty();
 
@@ -193,20 +197,25 @@ db.products.find({
 db.products.find({
     product_price: { $gt: 500 }
 }).limit(4);
+
 // 5. Find the product name and product material of each products
 db.products.find({}, {
     product_name: 1, product_material: 1
 });
+
 // 6. Find the product with a row id of 10
 db.products.find({
     "id": "10"
 });
+
 // 7. Find only the product name and product material
 db.products.find({}, {
     _id: 0, product_name: 1, product_material: 1
 });
+
 // 8. Find all products which contain the value of soft in product material
 db.products.find({ product_material: "Soft" });
+
 // 9. Find products which contain product color indigo  and product price 492.00
 db.products.find({
     $or: [
@@ -220,6 +229,7 @@ db.products.find({
 db.products.aggregate([
     { $group: { _id: "$product_price", count: { $count: {} } } },
     { $match: { _id: { $ne: null }, count: { $gt: 1 } } }
-]); // result is [36, 47] so will be deleting them from the database using below command
+]); 
+// result is [36, 47] so will be deleting them from the database using below command
 
 db.products.deleteMany({ product_price: { $in: [36, 47] } });
